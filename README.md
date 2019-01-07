@@ -1,6 +1,6 @@
 # P7M Extractor
 
-A simple class that allows to extract the original file from a signed p7m files.
+A simple class that allows to extract the original file from a signed p7m file.
 
 ## Requirements
 
