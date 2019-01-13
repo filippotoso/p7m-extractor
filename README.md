@@ -30,6 +30,8 @@ composer require filippo-toso/p7m-extractor
 Extracting text from a pdf is easy.
 P7M::extract('test.pdf.p7m', 'test.pdf', 'C:/Program Files/OpenSSL-Win64/bin/openssl.exe')
 ```php
+use FilippoToso\P7MExtractor\P7M;
+
 $success = (new P7M())
     ->setSource('source.pdf.p7m')
     ->setDestination('destination.pdf')
@@ -39,13 +41,17 @@ $success = (new P7M())
 Or easier:
 
 ```php
-$success = P7M::extract('source.pdf.p7m', 'destination.pdf');
+use FilippoToso\P7MExtractor\P7M;
+
+$success = P7M::convert('source.pdf.p7m', 'destination.pdf');
 ```
 
 By default the package will assume that the `openssl` command is located at `/usr/bin/openssl`.
 If it is located elsewhere pass its binary path to constructor
 
 ```php
+use FilippoToso\P7MExtractor\P7M;
+
 $success = (new P7M('/custom/path/to/openssl'))
     ->setSource('source.pdf.p7m')
     ->setDestination('destination.pdf')
@@ -55,5 +61,7 @@ $success = (new P7M('/custom/path/to/openssl'))
 or as the last parameter to the `extract` static method:
 
 ```php
-$success = P7M::extract('source.pdf.p7m', 'destination.pdf', '/custom/path/to/openssl');
+$success = P7M::convert('source.pdf.p7m', 'destination.pdf', '/custom/path/to/openssl');
 ```
+
+If you want to get the content as a string instead of saving it to a file you can use the get() method or the extract() static method.
