@@ -2,15 +2,13 @@
     "name": "filippo-toso/p7m-extractor",
     "description": "A simple class that allows to extract the original file from a signed p7m file.",
     "license": "MIT",
-    "authors": [
-        {
-            "name": "Filippo Toso",
-            "email": "filippo.toso@creativepark.it"
-        }
-    ],
+    "authors": [{
+        "name": "Filippo Toso",
+        "email": "filippo.toso@creativepark.it"
+    }],
     "require": {
-        "php" : "^7.0",
-        "symfony/process": "^3.3|^4.0|^5.0"
+        "php": "^7.0|^8.0|^9.0",
+        "symfony/process": "^3.3|^4.0|^5.0|^6.0"
     },
     "autoload": {
         "psr-4": {
