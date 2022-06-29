@@ -1,5 +1,5 @@
 {
-    "name": "filippo-toso/p7m-extractor",
+    "name": "nemesiscb/p7m-extractor",
     "description": "A simple class that allows to extract the original file from a signed p7m file.",
     "license": "MIT",
     "authors": [{
