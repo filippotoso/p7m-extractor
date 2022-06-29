@@ -87,7 +87,7 @@ use FilippoToso\P7MExtractor\P7M;
 
 $success = (new P7M('/custom/path/to/openssl'))
     ->setCommand('cms')
-    ->setExtraParam('no_attr_verify')
+    ->setExtraParam('-no_attr_verify')
     ->setSource('source.pdf.p7m')
     ->setDestination('destination.pdf')
     ->save();
@@ -96,4 +96,6 @@ $success = (new P7M('/custom/path/to/openssl'))
 The last example is usefull to solve issues on some kind of p7m files (probably old ones):
 
 `cms` solve problemes like `Error reading S/MIME message - Exit Code: 2 (Misuse of shell builtins)`
-`no_attr_verify` is usefull when receiving errors like this: `rsa routines:int_rsa_verify:bad signature - CMS routines:CMS_SignerInfo_verify:verification failure`
+`-no_attr_verify` is usefull when receiving errors like this: `rsa routines:int_rsa_verify:bad signature - CMS routines:CMS_SignerInfo_verify:verification failure`
+
+(no_attr_verify: Do not verify the signer's attribute of a signature)
