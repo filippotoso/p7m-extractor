@@ -12,6 +12,8 @@ class P7M
     protected $source;
     protected $destination;
     protected $binPath;
+    protected $command;
+    protected $extraParam;
 
     public function __construct(string $binPath = null)
     {
@@ -51,6 +53,20 @@ class P7M
         }
     }
 
+    public function setCommand(string $command) : self
+    {
+        $this->command = $command;
+
+        return $this;
+    }
+
+    public function setExtraParam(string $extraParam) : self
+    {
+        $this->extraParam = $extraParam;
+
+        return $this;
+    }
+
     public function save()
     {
 
@@ -67,8 +83,19 @@ class P7M
 
     }
 
-    protected function getProcess() {
-        $options = [$this->binPath, 'smime', '-verify', '-noverify', '-binary', '-in', $this->source, '-inform', 'DER', '-out', $this->destination];
+    protected function getProcess()
+    {
+        $command = 'smime';
+        if ($this->command) {
+            $command = $this->command;
+        }
+
+        $options = [$this->binPath, $command, '-verify', '-noverify', '-binary', '-in', $this->source, '-inform', 'DER', '-out', $this->destination];
+
+        if ($this->extraParam) {
+            $options[] = $this->extraParam;
+        }
+
         return new Process($options);
     }
 
