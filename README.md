@@ -65,3 +65,35 @@ $success = P7M::convert('source.pdf.p7m', 'destination.pdf', '/custom/path/to/op
 ```
 
 If you want to get the content as a string instead of saving it to a file you can use the get() method or the extract() static method.
+
+
+By default the package will assume that the `openssl` command is `smime`.
+If necessary you can use `cms` instead
+
+```php
+use FilippoToso\P7MExtractor\P7M;
+
+$success = (new P7M('/custom/path/to/openssl'))
+    ->setCommand('cms')
+    ->setSource('source.pdf.p7m')
+    ->setDestination('destination.pdf')
+    ->save();
+```
+
+You can also add another param to the command line, for example:
+
+```php
+use FilippoToso\P7MExtractor\P7M;
+
+$success = (new P7M('/custom/path/to/openssl'))
+    ->setCommand('cms')
+    ->setExtraParam('no_attr_verify')
+    ->setSource('source.pdf.p7m')
+    ->setDestination('destination.pdf')
+    ->save();
+```
+
+The last example is usefull to solve issues on some kind of p7m files (probably old ones):
+
+`cms` solve problemes like `Error reading S/MIME message - Exit Code: 2 (Misuse of shell builtins)`
+`no_attr_verify` is usefull when receiving errors like this: `rsa routines:int_rsa_verify:bad signature - CMS routines:CMS_SignerInfo_verify:verification failure`
