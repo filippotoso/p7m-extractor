@@ -12,13 +12,26 @@ class P7M
     protected $source;
     protected $destination;
     protected $binPath;
+    protected $params = ['{$openssl}', 'smime', '-verify', '-noverify', '-binary', '-in', '{$source}', '-inform', 'DER', '-out', '{$destination}'];
 
     public function __construct(string $binPath = null)
     {
         $this->binPath = $binPath ?? '/usr/bin/openssl';
     }
 
-    public function setSource(string $source) : self
+    public function getParams(): array
+    {
+        return $this->params;
+    }
+
+    public function setParams(array $params)
+    {
+        $this->params = $params;
+
+        return $this;
+    }
+
+    public function setSource(string $source): self
     {
         $this->checkSource($source);
 
@@ -35,7 +48,7 @@ class P7M
     }
 
 
-    public function setDestination(string $destination) : self
+    public function setDestination(string $destination): self
     {
         $this->checkDestination($destination);
 
@@ -53,7 +66,6 @@ class P7M
 
     public function save()
     {
-
         $this->checkSource($this->source);
         $this->checkDestination($this->destination);
 
@@ -64,15 +76,19 @@ class P7M
         }
 
         return true;
-
     }
 
-    protected function getProcess() {
-        $options = [$this->binPath, 'smime', '-verify', '-noverify', '-binary', '-in', $this->source, '-inform', 'DER', '-out', $this->destination];
+    protected function getProcess()
+    {
+        $options = array_map(function ($param) {
+            return str_replace(['{$openssl}', '{$source}', '{$destination}'], [$this->binPath, $this->source, $this->destination], $param);
+        }, $this->params);
+
         return new Process($options);
     }
 
-    public function get() {
+    public function get()
+    {
 
         $this->checkSource($this->source);
 
@@ -90,10 +106,10 @@ class P7M
         $this->destination = $originalDestination;
 
         return $content;
-
     }
 
-    protected function getTemporaryFile() {
+    protected function getTemporaryFile()
+    {
         $tempDir = rtrim(sys_get_temp_dir(), DIRECTORY_SEPARATOR);
         return tempnam($tempDir, 'p7m');
     }
@@ -103,16 +119,13 @@ class P7M
         return (new static($binPath))
             ->setSource($source)
             ->setDestination($destination)
-            ->save()
-        ;
+            ->save();
     }
 
     public static function extract(string $source, string $binPath = null)
     {
         return (new static($binPath))
             ->setSource($source)
-            ->get()
-        ;
+            ->get();
     }
-
 }

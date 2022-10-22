@@ -28,7 +28,7 @@ composer require filippo-toso/p7m-extractor
 ## Usage
 
 Extracting text from a pdf is easy.
-P7M::extract('test.pdf.p7m', 'test.pdf', 'C:/Program Files/OpenSSL-Win64/bin/openssl.exe')
+
 ```php
 use FilippoToso\P7MExtractor\P7M;
 
@@ -58,10 +58,24 @@ $success = (new P7M('/custom/path/to/openssl'))
     ->save();
 ```
 
-or as the last parameter to the `extract` static method:
+or as the last parameter to the `extract()` static method:
 
 ```php
 $success = P7M::convert('source.pdf.p7m', 'destination.pdf', '/custom/path/to/openssl');
 ```
 
-If you want to get the content as a string instead of saving it to a file you can use the get() method or the extract() static method.
+If you want to get the content as a string instead of saving it to a file you can use the `get()` method or the `extract()` static method.
+
+If you need to change the command or add additional parameters to openssl, you can use the `setParams()` methods
+
+```php
+use FilippoToso\P7MExtractor\P7M;
+
+$success = (new P7M('/custom/path/to/openssl'))
+    ->setParams(['{$openssl}', 'cms', '-verify', '-noverify', '-no_attr_verify', '-binary', '-in', '{$source}', '-inform', 'DER', '-out', '{$destination}'])
+    ->setSource('source.pdf.p7m')
+    ->setDestination('destination.pdf')
+    ->save();
+```
+
+The {$openssl}, {$source}, {$destination} tokens are replace dinamically with the openssl executable, source and destination paths.

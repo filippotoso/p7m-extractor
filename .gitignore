@@ -2,4 +2,5 @@
 /update.bat
 /vendor
 /composer.lock
+/test
 
